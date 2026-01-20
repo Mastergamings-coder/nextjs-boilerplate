@@ -1,64 +1,92 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
 
 export default function Home() {
+  const [profilePic, setProfilePic] = useState<string>("/profile-placeholder.png");
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setProfilePic(URL.createObjectURL(file));
+    }
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+      <main className="flex min-h-screen w-full max-w-3xl flex-col gap-12 py-24 px-16 bg-white dark:bg-black sm:items-start">
+
+        {/* Profile Header */}
+        <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
+          <div className="flex flex-col items-center gap-3">
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+              src={profilePic}
+              alt="Profile Picture"
+              width={120}
+              height={120}
+              className="rounded-full object-cover"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            <label className="cursor-pointer text-sm text-blue-600 dark:text-blue-400">
+              Change Photo
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageChange}
+              />
+            </label>
+          </div>
+
+          <div className="text-center sm:text-left">
+            <h1 className="text-3xl font-semibold text-black dark:text-zinc-50">
+              Philip V. Sotto
+            </h1>
+            <p className="text-zinc-600 dark:text-zinc-400">
+              Bachelor of Science in Computer Science
+            </p>
+          </div>
         </div>
+
+        {/* Education Section */}
+        <section className="w-full">
+          <h2 className="mb-2 text-xl font-semibold text-black dark:text-zinc-50">
+            Educational Background
+          </h2>
+          <ul className="space-y-2 text-zinc-600 dark:text-zinc-400">
+            <li>
+              <strong>Father Saturnino Urios University</strong><br />
+              BS Computer Science (2022 – 2027)
+            </li>
+            {/* Add more education items here */}
+          </ul>
+        </section>
+
+        {/* Skills Section */}
+        <section className="w-full">
+          <h2 className="mb-2 text-xl font-semibold text-black dark:text-zinc-50">
+            Skills
+          </h2>
+          <ul className="list-disc pl-5 text-zinc-600 dark:text-zinc-400">
+            <li>Coding</li>
+            <li>Research</li>
+            <li>Creativity</li>
+            <li>Marketing</li>
+            {/* Add more skills here */}
+          </ul>
+        </section>
+
+        {/* Contact Info */}
+        <section className="w-full border-t pt-6 border-black/[.08] dark:border-white/[.15]">
+          <h2 className="mb-2 text-xl font-semibold text-black dark:text-zinc-50">
+            Contact Information
+          </h2>
+          <p className="text-zinc-600 dark:text-zinc-400">
+            📧 philipsotto@gmail.com <br />
+            📍 Butuan City, Philippines
+          </p>
+        </section>
+
       </main>
     </div>
   );
