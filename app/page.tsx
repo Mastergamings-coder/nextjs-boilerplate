@@ -94,7 +94,6 @@ export default function Portfolio() {
       {/* FOOTER */}
       <footer className="bg-[#003654] p-6 text-center">
         <p>🌐 Social links go here (GitHub, LinkedIn, Facebook)</p>
-        
       </footer>
     </div>
   );
