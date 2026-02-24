@@ -2,99 +2,156 @@
 
 import { useState } from "react";
 
-export default function Portfolio() {
-  const [open, setOpen] = useState<string | null>(null);
+/* =========================
+   🔧 EDITABLE DATA SECTION
+   ========================= */
 
-  const toggle = (section: string) => {
-    setOpen(open === section ? null : section);
+const profile = {
+  name: "Philip V. Sotto",
+  title: "Computer Science Graduate",
+  location: "Butuan City, Philippines",
+  email: "philipsotto@gmail.com",
+  bio: "Passionate about building clean web apps and solving real-world problems with technology.",
+};
+
+const skills = ["Coding", "Research", "Creativity", "Marketing"];
+
+const projects = [
+  { title: "Portfolio Website", desc: "Built with Next.js + Tailwind" },
+  { title: "Network Simulation", desc: "Configured OSPF, VLAN, NAT" },
+];
+
+/* =========================
+   🧠 COMPONENT
+   ========================= */
+
+export default function Portfolio() {
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const handleChange = (e: any) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const sendMessage = async (e: any) => {
+    e.preventDefault();
+    await fetch("/api/contact", {
+      method: "POST",
+      body: JSON.stringify(form),
+    });
+    alert("Message sent!");
   };
 
   return (
-    <div className="min-h-screen bg-[#00171F] text-white font-sans">
-      {/* HEADER */}
-      <header className="flex items-center justify-between p-6 bg-[#003459] shadow-lg">
+    <div className="bg-gray-100 min-h-screen">
+
+      {/* =========================
+         🖼 COVER PHOTO
+         Replace image below
+         ========================= */}
+      <div className="h-64 bg-blue-600 w-full"></div>
+
+      {/* =========================
+         👤 PROFILE CARD
+         ========================= */}
+      <div className="max-w-5xl mx-auto bg-white shadow rounded-xl -mt-20 p-6 relative">
+
+        {/* Profile Picture */}
         <img
-          src="/profile.jpg"
-          alt="Profile"
-          className="w-16 h-16 rounded-full border-2 border-[#00A8E8]"
+          src="/profile.jpg" // 🔧 replace image
+          className="w-32 h-32 rounded-full border-4 border-white absolute -top-16"
         />
-        <nav className="space-x-6">
-          <a href="#skills" className="hover:text-[#00A8E8]">Skills</a>
-          <a href="#education" className="hover:text-[#00A8E8]">Education</a>
-          <a href="#experience" className="hover:text-[#00A8E8]">Experience</a>
-          <a href="#projects" className="hover:text-[#00A8E8]">Projects</a>
-          <a href="#contact" className="hover:text-[#00A8E8]">Contact</a>
-        </nav>
-      </header>
 
-      {/* HERO */}
-      <section className="grid md:grid-cols-2 gap-8 p-10">
-        <div>
-          <h1 className="text-4xl font-bold text-[#00A8E8]">Philip V. Sotto</h1>
-          <p className="mt-2 text-lg">Bachelor of Science in Computer Science</p>
-          <p className="mt-4 text-sm text-gray-300">
-            📧 philipsotto@gmail.com <br />
-            📍 Butuan City, Philippines
-          </p>
+        <div className="ml-36">
+          <h1 className="text-2xl font-bold">{profile.name}</h1>
+          <p className="text-gray-600">{profile.title}</p>
+          <p className="text-sm text-gray-500">{profile.location}</p>
         </div>
-        <div className="bg-[#003459] p-6 rounded-2xl shadow-xl">
-          <h2 className="text-xl font-semibold text-[#00A8E8]">About Me</h2>
-          <p className="mt-4 text-sm">
-            This is your personal space to talk about yourself, your goals, and your journey as a developer.
-          </p>
-        </div>
-      </section>
 
-      {/* EXPANDABLE SECTIONS */}
-      <section className="p-10 space-y-6">
-        {[{ id: "skills", title: "Skills", content: "Coding, Research, Creativity, Marketing" },
-          { id: "education", title: "Education", content: "BS Computer Science – Father Saturnino Urios University (Summa Cum Laude)" },
-          { id: "experience", title: "Experience", content: "Academic systems, research projects, portfolio works" }]
-          .map((item) => (
-            <div
-              key={item.id}
-              id={item.id}
-              onClick={() => toggle(item.id)}
-              className="bg-[#00A8E8] text-[#00171F] p-6 rounded-2xl cursor-pointer"
-            >
-              <h3 className="text-2xl font-bold">{item.title}</h3>
-              {open === item.id && <p className="mt-4 text-sm">{item.content}</p>}
+      </div>
+
+      {/* =========================
+         📚 MAIN CONTENT GRID
+         ========================= */}
+      <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-6 mt-6 p-4">
+
+        {/* ===== LEFT COLUMN ===== */}
+        <div className="space-y-6">
+
+          {/* ABOUT */}
+          <div className="bg-white p-4 rounded-xl shadow">
+            <h2 className="font-semibold mb-2">About</h2>
+            <p className="text-sm text-gray-600">{profile.bio}</p>
+          </div>
+
+          {/* SKILLS */}
+          <div className="bg-white p-4 rounded-xl shadow">
+            <h2 className="font-semibold mb-2">Skills</h2>
+            <ul className="text-sm text-gray-600 space-y-1">
+              {skills.map((s) => (
+                <li key={s}>• {s}</li>
+              ))}
+            </ul>
+          </div>
+
+        </div>
+
+        {/* ===== CENTER COLUMN ===== */}
+        <div className="md:col-span-2 space-y-6">
+
+          {/* PROJECTS */}
+          <div className="bg-white p-4 rounded-xl shadow">
+            <h2 className="font-semibold mb-4">Projects</h2>
+            <div className="space-y-3">
+              {projects.map((p) => (
+                <div key={p.title} className="border p-3 rounded-lg">
+                  <h3 className="font-medium">{p.title}</h3>
+                  <p className="text-sm text-gray-600">{p.desc}</p>
+                </div>
+              ))}
             </div>
-          ))}
-      </section>
+          </div>
 
-      {/* PROJECTS */}
-      <section id="projects" className="p-10">
-        <h2 className="text-3xl font-bold text-[#00A8E8] mb-6">Deployed Projects</h2>
-        <div className="grid md:grid-cols-3 gap-6">
-          {[1, 2, 3].map((p) => (
-            <div key={p} className="bg-[#003459] p-6 rounded-2xl">
-              <h3 className="font-semibold">Project {p}</h3>
-              <p className="text-sm mt-2">Project description and live link</p>
-            </div>
-          ))}
+          {/* =========================
+             📩 CONTACT FORM (VISIBLE)
+             ========================= */}
+          <div className="bg-white p-4 rounded-xl shadow">
+            <h2 className="font-semibold mb-4">Contact Me</h2>
+
+            <form onSubmit={sendMessage} className="space-y-3">
+              <input
+                name="name"
+                placeholder="Your Name"
+                className="w-full border p-2 rounded"
+                onChange={handleChange}
+                required
+              />
+              <input
+                name="email"
+                type="email"
+                placeholder="Your Email"
+                className="w-full border p-2 rounded"
+                onChange={handleChange}
+                required
+              />
+              <textarea
+                name="message"
+                placeholder="Message"
+                className="w-full border p-2 rounded"
+                onChange={handleChange}
+                required
+              />
+              <button className="bg-blue-600 text-white px-4 py-2 rounded">
+                Send Message
+              </button>
+            </form>
+          </div>
+
         </div>
-      </section>
-
-      {/* CONTACT */}
-      <section id="contact" className="p-10">
-        <h2 className="text-3xl font-bold text-[#00A8E8] mb-6">Contact Me</h2>
-        <form
-          action="https://formsubmit.co/philipsotto@gmail.com"
-          method="POST"
-          className="max-w-xl space-y-4"
-        >
-          <input className="w-full p-3 rounded text-black" name="name" placeholder="Your Name" required />
-          <input className="w-full p-3 rounded text-black" name="email" type="email" placeholder="Your Email" required />
-          <textarea className="w-full p-3 rounded text-black" name="message" placeholder="Your Message" required />
-          <button className="bg-[#00A8E8] text-black px-6 py-2 rounded">Send</button>
-        </form>
-      </section>
-
-      {/* FOOTER */}
-      <footer className="bg-[#003654] p-6 text-center">
-        <p>🌐 Social links go here (GitHub, LinkedIn, Facebook)</p>
-      </footer>
+      </div>
     </div>
   );
 }
